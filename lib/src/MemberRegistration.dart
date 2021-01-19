@@ -1,7 +1,5 @@
 import 'package:ballotcommette_app_office/src/Enums.dart';
 import 'package:ballotcommette_app_office/src/HomeScreen.dart';
-import 'package:ballotcommette_app_office/src/Widget/bezierContainer.dart';
-import 'package:ballotcommette_app_office/src/customWidgets/backBtn.dart';
 import 'package:ballotcommette_app_office/src/services/KamaytiService.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +21,8 @@ class _MemberRegistrationState extends State<MemberRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+//    double height = MediaQuery.of(context).size.height;
+//    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -41,23 +39,26 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.orange,
                 child: SingleChildScrollView(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                    //SizedBox(height: height * .2),
-                    _entryField('Description', nameController),
-                    SizedBox(height: 10),
-                    _entryField('Amount', amountController),
-                    SizedBox(height: 10),
-                    _entryField('Members Count', membersCountController),
-                    SizedBox(height: 10),
-                    _entryField('Code', codeController),
-                    SizedBox(height: 10),
-                    _entryField('Balloting Type', typeController),
-                    SizedBox(height: 10),
-                    // _entryField('Reference'),
-                    // SizedBox(height: 10),
-                    _submitButton(),
-                    SizedBox(height: 20),
-                  ]),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        //SizedBox(height: height * .2),
+                        _entryField('Description', nameController),
+                        SizedBox(height: 10),
+                        _entryField('Amount', amountController),
+                        SizedBox(height: 10),
+                        _entryField('Members Count', membersCountController),
+                        SizedBox(height: 10),
+                        _entryField('Code', codeController),
+                        SizedBox(height: 10),
+                        _entryField('Balloting Type', typeController),
+                        SizedBox(height: 10),
+                        // _entryField('Reference'),
+                        // SizedBox(height: 10),
+                        _submitButton(),
+                        SizedBox(height: 20),
+                      ]),
                 )),
             //BackBtn(),
           ],
@@ -81,7 +82,12 @@ class _MemberRegistrationState extends State<MemberRegistration> {
           ),
           Container(
             width: 350.0,
-            child: TextField(controller: controller, decoration: InputDecoration(border: InputBorder.none, fillColor: Color(0xfff3f3f4), filled: true)),
+            child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    fillColor: Color(0xfff3f3f4),
+                    filled: true)),
           ),
         ],
       ),
@@ -93,16 +99,18 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       onTap: () async {
         await KamaytiService().create(
           description: 'nameController.text',
-          amount: 0, //int.parse(amountController.text),
-          membersCount: 0, //int.parse(membersCountController.text),
+          amount: 0,
+          //int.parse(amountController.text),
+          membersCount: 0,
+          //int.parse(membersCountController.text),
           code: 'codeController.text',
           type: BallotType.Once,
         );
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MemberList(
-                    //maxSlide: MediaQuery.of(context).size.width * 0.835,
+                builder: (context) => HomeScreen(
+                      maxSlide: MediaQuery.of(context).size.width * 0.835,
                     )));
       },
       child: Container(
@@ -111,8 +119,17 @@ class _MemberRegistrationState extends State<MemberRegistration> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[BoxShadow(color: Colors.orange, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
-            gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Colors.blueGrey, Colors.blueGrey])),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.orange,
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Colors.blueGrey, Colors.blueGrey])),
         child: Text(
           'Registered',
           style: TextStyle(fontSize: 20, color: Colors.white),
