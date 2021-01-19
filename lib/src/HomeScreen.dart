@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:ballotcommette_app_office/src/CommetteList.dart';
 import 'package:ballotcommette_app_office/src/MemberRegistration.dart';
+import 'package:ballotcommette_app_office/src/NewCommette.dart';
 import 'package:ballotcommette_app_office/src/WelcomePage.dart';
 import 'package:ballotcommette_app_office/src/views/daystart.dart';
 import 'package:flutter/material.dart';
@@ -217,7 +219,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     height: 40,
                   ),
                   MemberRegistartion(),
-                  MemberList(),
+                  NewCommettee(),
+                  CommetteList(),
                   PaymentGateWay(),
                   CommetteHistoy()
                 ],
@@ -308,7 +311,7 @@ class MemberRegistartion extends StatelessWidget {
     );
   }
 }
-class MemberList extends StatelessWidget {
+class CommetteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -321,10 +324,26 @@ class MemberList extends StatelessWidget {
         height: height * 0.06,
         child: RaisedButton(
           shape: StadiumBorder(),
-          onPressed: () {
-            Navigator.pushNamed(context, '/sajda');
-          },
-          child: WidgetAnimator(Text("Member List",
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CommetteListView([
+                    "Running Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee",
+                    "2nd Last Committee"
+                  ]))),
+          child: WidgetAnimator(Text("Committee List",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: height * 0.023,
