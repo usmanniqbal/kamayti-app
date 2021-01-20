@@ -113,7 +113,6 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
-
   Widget _lable() {
     return Container(
         margin: EdgeInsets.only(top: 40, bottom: 20),
@@ -126,7 +125,6 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ));
   }
-
   Widget _title() {
     return RichText(
       textAlign: TextAlign.center,
