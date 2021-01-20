@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         Text("Ballot", style: Theme.of(context).textTheme.headline2),
         Text(
-          "Commette",
+          "Committee",
           style: Theme.of(context).textTheme.headline2,
         )
       ],
@@ -219,7 +219,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     height: 40,
                   ),
                   MemberRegistartion(),
-                  NewCommettee(),
                   CommetteList(),
                   PaymentGateWay(),
                   CommetteHistoy()
@@ -300,7 +299,7 @@ class MemberRegistartion extends StatelessWidget {
                   // builder: (context) => StartDay(
                   //   maxSlide: MediaQuery.of(context).size.width * 0.835,
                   ))),
-          child: WidgetAnimator(Text("Become a Member",
+          child: WidgetAnimator(Text("New Committee",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: height * 0.023,
@@ -397,7 +396,7 @@ class CommetteHistoy extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, '/ManzilIndex');
           },
-          child: WidgetAnimator(Text("Commette History",
+          child: WidgetAnimator(Text("Committee History",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: height * 0.023,
