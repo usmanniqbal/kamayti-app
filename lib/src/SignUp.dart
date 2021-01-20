@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
               color: Colors.amber),
           children: [
             TextSpan(
-                text: 'Commette',
+                text: 'Committee',
                 style: TextStyle(color: Colors.black, fontSize: 30))
           ]),
     );
