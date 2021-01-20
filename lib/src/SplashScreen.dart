@@ -22,7 +22,7 @@ class _MyKamaytiApp extends State<KamaytiApp> {
     // TODO: implement build
     return new SplashScreen(
       seconds: 3,
-      navigateAfterSeconds: new LoginPage(),
+      navigateAfterSeconds: new WelcomePage(),
       image: new Image.asset('assets/logo.jpg'),
       photoSize: 50,
       backgroundColor: Colors.orange,
