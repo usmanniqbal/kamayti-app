@@ -9,7 +9,7 @@ class AppVersion extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            "Salesman Delivery",
+            "Ballot Committee",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.height * 0.018,color: Colors.white),
