@@ -118,7 +118,7 @@ class MyDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: height * 0.025, color: Colors.white),
             ),
             Text(
-              "Commette",
+              "Committee",
               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: height * 0.035),
             )
           ],
@@ -141,7 +141,7 @@ class MyDrawer extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30, color: Colors.white),
           ),
           Text(
-            "\nCommette",
+            "\n Committee",
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 30),
           )
         ],
