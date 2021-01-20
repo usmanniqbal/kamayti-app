@@ -139,7 +139,7 @@ class _WelcomePageState extends State<WelcomePage> {
               color: Colors.white),
           children: [
             TextSpan(
-                text: 'Committe',
+                text: 'Committee',
                 style: TextStyle(color: Colors.black, fontSize: 30))
           ]
       ),
