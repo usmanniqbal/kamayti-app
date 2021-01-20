@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ballotcommette_app_office/src/HomeScreen.dart';
+import 'package:ballotcommette_app_office/src/LoginPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +22,7 @@ class _MyKamaytiApp extends State<KamaytiApp> {
     // TODO: implement build
     return new SplashScreen(
       seconds: 3,
-      navigateAfterSeconds: new WelcomePage(),
+      navigateAfterSeconds: new LoginPage(),
       image: new Image.asset('assets/logo.jpg'),
       photoSize: 50,
       backgroundColor: Colors.orange,
