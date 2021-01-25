@@ -37,15 +37,15 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   SizedBox(height: height * .2),
                   _title(),
-                  SizedBox(height: 50),
-                  _emailPasswordWidget(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 60),
+                  //_emailPasswordWidget(),
+                  SizedBox(height: 70),
                   CustomRaiseButton(color: Colors.white,
                     borderRadius: 4.0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Image.asset('assets/google.jpg'),
+                        Image.asset('assets/google.jpg',height: 30.0,),
                         Text('Google Sign In'
                         ),
                         Opacity(
@@ -56,14 +56,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   onpress: _signinGoogle,
                   ),//_submitButton(context),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerRight,
-                    child: Text('Forgot Password ?',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)),
-                  ),
-                  _divider(),
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(vertical: 10),
+                  //   alignment: Alignment.centerRight,
+                  //   child: Text('Forgot Password ?',
+                  //       style: TextStyle(
+                  //           fontSize: 14, fontWeight: FontWeight.w500)),
+                  // ),
+                  //_divider(),
                   SizedBox(height: height * .055),
                 ],
               ),
@@ -184,17 +184,17 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _signinGoogle() async {
     try {
-      final result = await AuthService().signInWithGoogle();
-      if (result == null) {
-        throw new Exception("Error while signing in.");
-      } else {
+      // final result = await AuthService().signInWithGoogle();
+      // if (result == null) {
+      //   throw new Exception("Error while signing in.");
+      // } else {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(
                 maxSlide: MediaQuery.of(context).size.width * 0.835,
               )));
-       }
+       // }
     } catch (e) {
       showDialog(
         context: context,
