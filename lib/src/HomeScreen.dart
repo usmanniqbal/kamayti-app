@@ -293,7 +293,7 @@ class MemberRegistartion extends StatelessWidget {
               context,
               MaterialPageRoute(
 
-                builder: (context) => MemberRegistration(
+                builder: (context) => NewCommettee(
                   maxSlide: MediaQuery.of(context).size.width * 0.835,
 
                   // builder: (context) => StartDay(
