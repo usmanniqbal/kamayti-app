@@ -1,5 +1,6 @@
 
 import 'package:ballotcommette_app_office/src/HomeScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,6 +16,12 @@ class NewCommettee extends StatefulWidget {
 }
 
 class _NewCommetteeState extends State<NewCommettee> {
+   TextEditingController descriptionController = new TextEditingController();
+   TextEditingController noofmemberController = new TextEditingController();
+   TextEditingController amountController = new TextEditingController();
+
+  //TextFormField a = new TextFormField();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -32,15 +39,15 @@ class _NewCommetteeState extends State<NewCommettee> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 20,),
-              _entryField('Description'),
+              _entryField('Description',descriptionController),
               SizedBox(height: 10),
               Text('Committee Type',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               SizedBox(height: 10),
               DropDownList(["Select Type","Monthly","Weekly"]),
               SizedBox(height: 10),
-              _entryFieldNumber('Installment Amount'),
+              _entryFieldNumber('Installment Amount',amountController),
               SizedBox(height: 10),
-              _entryFieldNumber('No Of Members.'),
+              _entryFieldNumber('No Of Members.',noofmemberController),
               SizedBox(height: 10),
               Text('Balloting Type',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               SizedBox(height: 10),
@@ -54,7 +61,7 @@ class _NewCommetteeState extends State<NewCommettee> {
       ),
     );
   }
-  Widget _entryFieldNumber(String title ) {
+  Widget _entryFieldNumber(String title,TextEditingController values ) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -68,8 +75,10 @@ class _NewCommetteeState extends State<NewCommettee> {
             height: 10,
           ),
           Container(
-            width: 350.0,
-            child: TextField(
+            padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+            width: 400.0,
+            child: TextFormField(
+              controller: values,
                 keyboardType: TextInputType.number,
                 inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
@@ -81,7 +90,7 @@ class _NewCommetteeState extends State<NewCommettee> {
       ),
     );
   }
-  Widget _entryFieldDate(String title ) {
+  Widget _entryField(String title, TextEditingController values) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -95,34 +104,11 @@ class _NewCommetteeState extends State<NewCommettee> {
             height: 10,
           ),
           Container(
-            width: 350.0,
-            child: TextField(
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Color(0xfff3f3f4),
-                    filled: true)),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget _entryField(String title) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: 350.0,
-            child: TextField(
+            padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+            width: 400.0,
+            child: TextFormField(
+              controller:  values,
+
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     fillColor: Color(0xfff3f3f4),
@@ -144,7 +130,7 @@ class _NewCommetteeState extends State<NewCommettee> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
+        padding: EdgeInsets.all(15.0),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
