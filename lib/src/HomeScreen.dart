@@ -2,10 +2,8 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:ballotcommette_app_office/src/CommetteList.dart';
-import 'package:ballotcommette_app_office/src/MemberRegistration.dart';
 import 'package:ballotcommette_app_office/src/NewCommette.dart';
-import 'package:ballotcommette_app_office/src/WelcomePage.dart';
-import 'package:ballotcommette_app_office/src/views/daystart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'Widget/Drawer.dart';
@@ -13,8 +11,8 @@ import 'animations/bottomAnimation.dart';
 
 class HomeScreen extends StatefulWidget {
   final double maxSlide;
-
-  HomeScreen({@required this.maxSlide});
+  final User user;
+  HomeScreen({@required this.maxSlide, @required this.user});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -28,13 +26,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 250));
   }
 
-  void toggle() => animationController.isDismissed
-      ? animationController.forward()
-      : animationController.reverse();
+  void toggle() => animationController.isDismissed ? animationController.forward() : animationController.reverse();
 
   bool _canBeDragged;
 
@@ -65,8 +60,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return;
     }
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
-      double visualVelocity = details.velocity.pixelsPerSecond.dx /
-          MediaQuery.of(context).size.width;
+      double visualVelocity = details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
 
       animationController.fling(velocity: visualVelocity);
     } else if (animationController.value < 0.5) {
@@ -80,8 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             title: new Text(
               "Exit Application",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -136,33 +129,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Stack(
                     children: <Widget>[
                       Transform.translate(
-                        offset: Offset(
-                            widget.maxSlide * (animationController.value - 1),
-                            0),
+                        offset: Offset(widget.maxSlide * (animationController.value - 1), 0),
                         child: Transform(
                             transform: Matrix4.identity()
                               ..setEntry(3, 2, 0.001)
-                              ..rotateY(math.pi /
-                                  2 *
-                                  (1 - animationController.value)),
+                              ..rotateY(math.pi / 2 * (1 - animationController.value)),
                             alignment: Alignment.centerRight,
                             child: MyDrawer()),
                       ),
                       Transform.translate(
-                        offset: Offset(
-                            widget.maxSlide * animationController.value, 0),
+                        offset: Offset(widget.maxSlide * animationController.value, 0),
                         child: Transform(
                             transform: Matrix4.identity()
                               ..setEntry(3, 2, 0.001)
-                              ..rotateY(
-                                  -math.pi / 2 * animationController.value),
+                              ..rotateY(-math.pi / 2 * animationController.value),
                             alignment: Alignment.centerLeft,
                             child: MainScreen(context)), //Main Screen Widget
                       ),
                       Positioned(
                         top: 4.0 + MediaQuery.of(context).padding.top,
-                        left: width * 0.01 +
-                            animationController.value * widget.maxSlide,
+                        left: width * 0.01 + animationController.value * widget.maxSlide,
                         child: IconButton(
                           icon: Icon(Icons.menu),
                           onPressed: toggle,
@@ -265,11 +251,8 @@ class CompanyDetail extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Text("\"Reaching Out Enriching Lives\"\n",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 20)),
-          Text("Mcs Team From MAJU\n",
-              style: TextStyle(color: Colors.white, fontSize: 15)),
+          Text("\"Reaching Out Enriching Lives\"\n", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20)),
+          Text("Mcs Team From MAJU\n", style: TextStyle(color: Colors.white, fontSize: 15)),
         ],
       ),
     );
@@ -292,24 +275,20 @@ class MemberRegistartion extends StatelessWidget {
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
+                  builder: (context) => NewCommettee(
+                        maxSlide: MediaQuery.of(context).size.width * 0.835,
 
-                builder: (context) => NewCommettee(
-                  maxSlide: MediaQuery.of(context).size.width * 0.835,
-
-                  // builder: (context) => StartDay(
-                  //   maxSlide: MediaQuery.of(context).size.width * 0.835,
-                  ))),
-          child: WidgetAnimator(Text("New Committee",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: height * 0.023,
-                  fontWeight: FontWeight.w600))),
+                        // builder: (context) => StartDay(
+                        //   maxSlide: MediaQuery.of(context).size.width * 0.835,
+                      ))),
+          child: WidgetAnimator(Text("New Committee", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),
     );
   }
 }
+
 class CommetteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -327,32 +306,29 @@ class CommetteList extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => CommetteListView([
-                    "Running Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee",
-                    "2nd Last Committee"
-                  ]))),
-          child: WidgetAnimator(Text("Committee List",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: height * 0.023,
-                  fontWeight: FontWeight.w600))),
+                        "Running Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee",
+                        "2nd Last Committee"
+                      ]))),
+          child: WidgetAnimator(Text("Committee List", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),
     );
   }
 }
+
 class PaymentGateWay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -369,17 +345,14 @@ class PaymentGateWay extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, '/juzzIndex');
           },
-          child: WidgetAnimator(Text("Payment Gateway",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: height * 0.023,
-                  fontWeight: FontWeight.w600))),
+          child: WidgetAnimator(Text("Payment Gateway", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),
     );
   }
 }
+
 class CommetteHistoy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -396,11 +369,7 @@ class CommetteHistoy extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, '/ManzilIndex');
           },
-          child: WidgetAnimator(Text("Committee History",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: height * 0.023,
-                  fontWeight: FontWeight.w600))),
+          child: WidgetAnimator(Text("Committee History", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),

@@ -3,19 +3,11 @@ import 'package:ballotcommette_app_office/src/Widget/customRaisebutton.dart';
 import 'package:ballotcommette_app_office/src/services/AuthService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'Widget/bezierContainer.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -24,10 +16,7 @@ class _LoginPageState extends State<LoginPage> {
       height: height,
       child: Stack(
         children: <Widget>[
-          Positioned(
-              top: -height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer()),
+          Positioned(top: -height * .15, right: -MediaQuery.of(context).size.width * .4, child: BezierContainer()),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
@@ -36,34 +25,29 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: height * .2),
-                  _title(),
+                  _title(context),
                   SizedBox(height: 60),
                   //_emailPasswordWidget(),
                   SizedBox(height: 70),
-                  CustomRaiseButton(color: Colors.white,
+                  CustomRaiseButton(
+                    color: Colors.white,
                     borderRadius: 4.0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Image.asset('assets/google.jpg',height: 30.0,),
-                        Text('Google Sign In'
+                        Image.asset(
+                          'assets/google.jpg',
+                          height: 30.0,
                         ),
+                        Text('Google Sign In'),
                         Opacity(
                           opacity: 0.0,
                           child: Image.asset('assets/google.jpg'),
                         )
                       ],
                     ),
-                  onpress: _signinGoogle,
-                  ),//_submitButton(context),
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(vertical: 10),
-                  //   alignment: Alignment.centerRight,
-                  //   child: Text('Forgot Password ?',
-                  //       style: TextStyle(
-                  //           fontSize: 14, fontWeight: FontWeight.w500)),
-                  // ),
-                  //_divider(),
+                    onpress: () => _signinGoogle(context),
+                  ), //_submitButton(context),
                   SizedBox(height: height * .055),
                 ],
               ),
@@ -73,27 +57,6 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     ));
-  }
-
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            ),
-            Text('Back',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _entryField(String title, {bool isPassword = false}) {
@@ -109,97 +72,20 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
             height: 10,
           ),
-          TextField(
-              obscureText: isPassword,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
+          TextField(obscureText: isPassword, decoration: InputDecoration(border: InputBorder.none, fillColor: Color(0xfff3f3f4), filled: true))
         ],
       ),
     );
   }
 
-  Widget _submitButton(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        try {
-          // final result = await AuthService().signInWithGoogle();
-          // if (result == null) {
-          //   throw new Exception("Error while signing in.");
-          // } else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => HomeScreen(
-                        maxSlide: MediaQuery.of(context).size.width * 0.835,
-                      )));
-          // }
-        } catch (e) {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text("Login Failder!"),
-              content: Text(e.toString()),
-            ),
-          );
-        }
-      },
-      child: Container(
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 15),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-
-
-            ],
-          ),
-
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: Offset(2, 4),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  //colors: [Colors.white])),
-                  colors: [Color(0xfffbb448), Color(0xfff7892b)]),
-          ),
-
-          // child: Text(
-          //    'Login',
-          //    style: TextStyle(fontSize: 20, color: Colors.white),
-          //  ),
-          ),
-    );
-  }
-
-  Future<void> _signinGoogle() async {
+  Future<void> _signinGoogle(BuildContext context) async {
     try {
-      // final result = await AuthService().signInWithGoogle();
-      // if (result == null) {
-      //   throw new Exception("Error while signing in.");
-      // } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomeScreen(
-                maxSlide: MediaQuery.of(context).size.width * 0.835,
-              )));
-       // }
+      await AuthService.instance().signInWithGoogle();
     } catch (e) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Login Failder!"),
+          title: Text("Login Fail!"),
           content: Text(e.toString()),
         ),
       );
@@ -239,21 +125,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _title() {
+  Widget _title(BuildContext context) {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
           text: 'Ballot',
-          style: GoogleFonts.portLligatSans(
-              textStyle: Theme.of(context).textTheme.display1,
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
-              color: Colors.amber),
-          children: [
-            TextSpan(
-                text: ' Committee',
-                style: TextStyle(color: Colors.black, fontSize: 30))
-          ]),
+          style: GoogleFonts.portLligatSans(textStyle: Theme.of(context).textTheme.display1, fontSize: 30, fontWeight: FontWeight.w700, color: Colors.amber),
+          children: [TextSpan(text: ' Committee', style: TextStyle(color: Colors.black, fontSize: 30))]),
     );
   }
 

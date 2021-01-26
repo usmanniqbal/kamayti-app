@@ -1,7 +1,10 @@
 import 'package:ballotcommette_app_office/src/HomeScreen.dart';
-import 'package:ballotcommette_app_office/src/SplashScreen.dart';
+import 'package:ballotcommette_app_office/src/LoginPage.dart';
+import 'package:ballotcommette_app_office/src/SplashPage.dart';
+import 'package:ballotcommette_app_office/src/services/AuthService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +32,27 @@ class MyApp extends StatelessWidget {
               return Text("Something went wronge");
             } // Once complete, show your application
             else if (snapshot.connectionState == ConnectionState.done) {
-              return KamaytiApp();
+              return ChangeNotifierProvider(
+                create: (_) => AuthService.instance(),
+                child: Consumer(
+                  builder: (context, AuthService service, _) {
+                    switch (service.appState) {
+                      case AppState.initial:
+                        return SplashPage();
+                      case AppState.unauthenticated:
+                      case AppState.authenticating:
+                        return LoginPage();
+                      case AppState.authenticated:
+                        return HomeScreen(
+                          maxSlide: MediaQuery.of(context).size.width * 0.835,
+                          user: context.watch<AuthService>().user,
+                        );
+                      default:
+                        return Container();
+                    }
+                  },
+                ),
+              );
             } else {
               return Text("Loading");
             }

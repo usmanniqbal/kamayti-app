@@ -2,6 +2,7 @@ import 'package:ballotcommette_app_office/src/HomeScreen.dart';
 import 'package:ballotcommette_app_office/src/customWidgets/appVersion.dart';
 import 'package:ballotcommette_app_office/src/services/AuthService.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyDrawer extends StatelessWidget {
   myListTile(BuildContext context, double height, IconData tileIcon, String title, {Widget widget, GestureTapCallback onTap}) {
@@ -38,13 +39,13 @@ class MyDrawer extends StatelessWidget {
               DrawerAppName(context),
               Column(
                 children: <Widget>[
-                  myListTile(context, height, Icons.format_list_bulleted, "List",onTap: (){}),
+                  myListTile(context, height, Icons.format_list_bulleted, "List", onTap: () {}),
                   //myListTile(context, height, Icons.location_on, "Location", onTap: (){}),
-                  myListTile(context, height, Icons.payments_sharp, "Paymet Gateway", onTap: (){}),
-                  myListTile(context, height, Icons.format_list_numbered, "Commette History", onTap: (){}),
-                  myListTile(context, height, Icons.help, "Help Guide", onTap: (){}),
-                  myListTile(context, height, Icons.share, "Share App", onTap: (){}),
-                  myListTile(context, height, Icons.logout, "Logout", onTap: () async => await AuthService().signOut()),
+                  myListTile(context, height, Icons.payments_sharp, "Paymet Gateway", onTap: () {}),
+                  myListTile(context, height, Icons.format_list_numbered, "Commette History", onTap: () {}),
+                  myListTile(context, height, Icons.help, "Help Guide", onTap: () {}),
+                  myListTile(context, height, Icons.share, "Share App", onTap: () {}),
+                  myListTile(context, height, Icons.logout, "Logout", onTap: () => AuthService.instance().signOut()),
                 ],
               ),
               AppVersion(),

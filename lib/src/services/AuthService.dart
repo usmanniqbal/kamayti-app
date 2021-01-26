@@ -1,34 +1,63 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthService {
-  AuthService._internal();
-  static final AuthService _instance = AuthService._internal();
-  factory AuthService() => _instance;
+enum AppState { initial, authenticated, authenticating, unauthenticated }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class AuthService with ChangeNotifier {
+  FirebaseAuth _auth;
+  AppState _appState = AppState.initial;
+  AppState get appState => _appState;
+  User _user;
+  User get user => _user;
 
-  stateChanged() => _auth.authStateChanges();
+  AuthService.instance() : _auth = FirebaseAuth.instance {
+    _auth.authStateChanges().listen((firebaseUser) {
+      if (firebaseUser == null) {
+        _appState = AppState.unauthenticated;
+      } else {
+        _user = firebaseUser;
+        _appState = AppState.authenticated;
+      }
 
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    if (googleUser == null) {
-      return throw new Exception("Please sign in from valid google id.");
-    }
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-    // Create a new credential
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await _auth.signInWithCredential(credential);
+      notifyListeners();
+    });
   }
 
-  Future signOut() => _auth.signOut();
+  Future<bool> signInWithGoogle() async {
+    try {
+      _appState = AppState.authenticating; //set current state to loading state.
+      notifyListeners();
+
+      // Trigger the authentication flow
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      if (googleUser == null) {
+        return throw new Exception("Please sign in from valid google id.");
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Create a new credential
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await _auth.signInWithCredential(credential);
+      return true;
+    } catch (e) {
+      _appState = AppState.unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future signOut() async {
+    await _auth.signOut();
+    _appState = AppState.unauthenticated;
+    notifyListeners();
+    return Future.delayed(Duration.zero);
+  }
 }
