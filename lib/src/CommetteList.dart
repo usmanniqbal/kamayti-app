@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ballotcommette_app_office/src/HomeScreen.dart';
 import 'package:ballotcommette_app_office/src/NewCommette.dart';
 import 'package:ballotcommette_app_office/src/Widget/floatingactionbutton.dart';
 import 'package:ballotcommette_app_office/src/entities/Kamayti.dart';
@@ -56,10 +57,26 @@ class CommetteListView extends StatelessWidget {
                         padding: const EdgeInsets.all(0),
                         child: SizedBox(
                           width: 50,
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: Icon(Icons.more_vert),
-                          ),
+                          child: PopupMenuButton(
+                            itemBuilder: (context) => <PopupMenuEntry<dynamic>>[
+                              const PopupMenuItem(
+                                value: 1,
+                                child: Text("Edit"),
+                              ),
+                            ],
+                            onSelected: (route){
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => MemberRegistartion()));
+                            },
+                          )
+
+                          // FlatButton(
+                          //
+                          //
+                          //
+                          //   onPressed: () {},
+                          //   child: Icon(Icons.more_vert),
+                          //
+                          // ),
                         ),
                       ),
                     ))
