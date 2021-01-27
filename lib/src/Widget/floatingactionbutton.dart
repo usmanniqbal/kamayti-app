@@ -1,3 +1,4 @@
+import 'package:ballotcommette_app_office/src/NewCommette.dart';
 import 'package:flutter/material.dart';
 
 class FancyFab extends StatefulWidget {
@@ -73,8 +74,12 @@ class _FancyFabState extends State<FancyFab>
   Widget add() {
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Add',
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NewCommettee(
+                    maxSlide: MediaQuery.of(context).size.width * 0.835))),
+        tooltip: 'New Committe',
         child: Icon(Icons.add),
       ),
     );
@@ -83,9 +88,10 @@ class _FancyFabState extends State<FancyFab>
   Widget image() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "img",
         onPressed: null,
-        tooltip: 'Image',
-        child: Icon(Icons.image),
+        tooltip: 'Join Committe',
+        child: Icon(Icons.account_tree_outlined),
       ),
     );
   }
@@ -93,6 +99,7 @@ class _FancyFabState extends State<FancyFab>
   Widget inbox() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "inb",
         onPressed: null,
         tooltip: 'Inbox',
         child: Icon(Icons.inbox),
@@ -103,6 +110,7 @@ class _FancyFabState extends State<FancyFab>
   Widget toggle() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "tg",
         backgroundColor: _buttonColor.value,
         onPressed: animate,
         tooltip: 'Toggle',
@@ -114,15 +122,42 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
+  // Widget showjoincommittedialog(BuildContext context){
+  //   return AlertDialog(
+  //     content: Stack(
+  //       overflow: Overflow.visible,
+  //       children: <Widget>[
+  //         Positioned(
+  //           right: -40.0,
+  //           top: -40.0,
+  //           child: InkResponse(
+  //             onTap: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: CircleAvatar(
+  //               child: Icon(Icons.close),
+  //               backgroundColor: Colors.red,
+  //             ),
+  //           ),
+  //         ),
+  //         Form(
+  //             key: _formkey,
+  //             child: null)
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    //return toggle();
+      return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Transform(
           transform: Matrix4.translationValues(
             0.0,
-            _translateButton.value * 3.0,
+            _translateButton.value * 2.0,
             0.0,
           ),
           child: add(),
@@ -130,19 +165,19 @@ class _FancyFabState extends State<FancyFab>
         Transform(
           transform: Matrix4.translationValues(
             0.0,
-            _translateButton.value * 2.0,
+            _translateButton.value * 1.0,
             0.0,
           ),
           child: image(),
         ),
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value,
-            0.0,
-          ),
-          child: inbox(),
-        ),
+        // Transform(
+        //   transform: Matrix4.translationValues(
+        //     0.0,
+        //     _translateButton.value,
+        //     0.0,
+        //   ),
+        //   child: inbox(),
+        // ),
         toggle(),
       ],
     );
