@@ -9,6 +9,8 @@ class Kamayti extends BaseEntity {
   dynamic createdAt;
   @override
   String createdBy;
+  @override
+  String createdByName;
   String description;
   int amount;
   int membersCount;
@@ -25,6 +27,7 @@ class Kamayti extends BaseEntity {
       : id = id,
         createdAt = snapshot['createdAt'],
         createdBy = snapshot['createdBy'],
+        createdByName = snapshot['createdByName'],
         description = snapshot['description'],
         amount = snapshot['amount'],
         membersCount = snapshot['membersCount'],

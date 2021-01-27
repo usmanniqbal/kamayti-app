@@ -26,12 +26,12 @@ class CommetteListView extends StatelessWidget {
         backgroundColor: Colors.orange,
       ),
       backgroundColor: Colors.orange,
-      body: _ListView(context),
+      body: _listView(context),
       floatingActionButton: FancyFab(),
     );
   }
 
-  Widget _ListView(BuildContext context) {
+  Widget _listView(BuildContext context) {
     return StreamBuilder<List<Kamayti>>(
         stream: KamaytiService().getAll(),
         builder: (context, snapshot) {
@@ -43,17 +43,27 @@ class CommetteListView extends StatelessWidget {
             return Text("Loading");
           }
 
-          return new ListView(
-            children: snapshot.data.map((Kamayti kamayti) {
-              return new ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage('assets/logo.jpg'),
-                  radius: 25.0,
-                ),
-                title: new Text(kamayti.description),
-                subtitle: new Text("Ballot Type: $kamayti.type"),
-              );
-            }).toList(),
+          return ListView(
+            children: snapshot.data
+                .map((Kamayti kamayti) => ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage('assets/logo.jpg'),
+                        radius: 25.0,
+                      ),
+                      title: new Text(kamayti.description),
+                      subtitle: new Text("Amount: ${kamayti.amount}"),
+                      trailing: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: SizedBox(
+                          width: 50,
+                          child: FlatButton(
+                            onPressed: () {},
+                            child: Icon(Icons.more_vert),
+                          ),
+                        ),
+                      ),
+                    ))
+                .toList(),
           );
         });
   }
