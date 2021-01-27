@@ -8,15 +8,13 @@ class AuthService with ChangeNotifier {
   FirebaseAuth _auth;
   AppState _appState = AppState.initial;
   AppState get appState => _appState;
-  User _user;
-  User get user => _user;
+  static User get user => FirebaseAuth.instance.currentUser;
 
   AuthService.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen((firebaseUser) {
       if (firebaseUser == null) {
         _appState = AppState.unauthenticated;
       } else {
-        _user = firebaseUser;
         _appState = AppState.authenticated;
       }
 

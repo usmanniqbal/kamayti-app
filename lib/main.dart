@@ -43,10 +43,7 @@ class MyApp extends StatelessWidget {
                       case AppState.authenticating:
                         return LoginPage();
                       case AppState.authenticated:
-                        return HomeScreen(
-                          maxSlide: MediaQuery.of(context).size.width * 0.835,
-                          user: context.watch<AuthService>().user,
-                        );
+                        return HomeScreen(maxSlide: MediaQuery.of(context).size.width * 0.835);
                       default:
                         return Container();
                     }

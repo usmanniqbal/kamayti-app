@@ -1,6 +1,10 @@
 import 'dart:io';
 
 import 'package:ballotcommette_app_office/src/NewCommette.dart';
+import 'package:ballotcommette_app_office/src/entities/Kamayti.dart';
+import 'package:ballotcommette_app_office/src/services/FirestoreService.dart';
+import 'package:ballotcommette_app_office/src/services/KamaytiService.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CommetteListView extends StatelessWidget {
@@ -25,34 +29,34 @@ class CommetteListView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.deepOrange,
-          onPressed: () =>
-              Navigator.push(context, MaterialPageRoute(builder: (contexet) =>
-                  NewCommettee(
-                      maxSlide: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.835)))
-      ),
-
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (contexet) => NewCommettee(maxSlide: MediaQuery.of(context).size.width * 0.835)))),
     );
   }
 
   Widget _ListView(BuildContext context) {
-    return ListView.separated(
-      itemCount: _list.length,
-      itemBuilder: (context, index) {
-        return Card(
-          shadowColor: Colors.grey,
-            child: ListTile(
-              onTap: () {},
-              title: Text(_list[index]),
-              subtitle: Text("Month : January \n Amount : 10,000.00"),
-            ),
+    return StreamBuilder<List<Kamayti>>(
+        stream: KamaytiService().getAll(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
+
+          return new ListView(
+            children: snapshot.data.map((Kamayti kamayti) {
+              return new ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage('assets/logo.jpg'),
+                  radius: 25.0,
+                ),
+                title: new Text(kamayti.description),
+                subtitle: new Text("Ballot Type: $kamayti.type"),
+              );
+            }).toList(),
           );
-      },
-      separatorBuilder: (context, index) {
-        return Divider();
-      },
-    );
+        });
   }
 }

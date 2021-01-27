@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 
 class DropDownList extends StatefulWidget {
-  List<String> _dropdownlist = [];
+  List<String> list = [];
+  TextEditingController controller;
   @override
   _DropDownListState createState() => _DropDownListState();
 
-  DropDownList(List<String> this._dropdownlist);
+  DropDownList({
+    @required this.list,
+    @required this.controller,
+  });
 }
+
 class _DropDownListState extends State<DropDownList> {
   @override
   Widget build(BuildContext context) {
-    return _hintDown(
-    );
+    return _hintDown();
   }
+
   String dropdownValue = 'Select Type';
   Widget _hintDown() => Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.white
-      ),
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8.0), color: Colors.white),
       child: Padding(
           padding: EdgeInsets.all(5.0),
           child: DropdownButton<String>(
@@ -31,17 +32,14 @@ class _DropDownListState extends State<DropDownList> {
             underline: Container(),
             onChanged: (String newValue) {
               setState(() {
-                dropdownValue = newValue;
+                widget.controller.text = dropdownValue = newValue;
               });
             },
-            items: widget._dropdownlist
-                .map<DropdownMenuItem<String>>((String value) {
+            items: widget.list.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
-          )
-      )
-  );
+          )));
 }
