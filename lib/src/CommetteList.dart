@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ballotcommette_app_office/src/NewCommette.dart';
+import 'package:ballotcommette_app_office/src/Widget/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
 class CommetteListView extends StatelessWidget {
@@ -21,19 +22,8 @@ class CommetteListView extends StatelessWidget {
         backgroundColor: Colors.orange,
       ),
       backgroundColor: Colors.orange,
-      body: _ListView(context),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.deepOrange,
-          onPressed: () =>
-              Navigator.push(context, MaterialPageRoute(builder: (contexet) =>
-                  NewCommettee(
-                      maxSlide: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.835)))
-      ),
-
+      body:  _ListView(context),
+      floatingActionButton: FancyFab(),
     );
   }
 
