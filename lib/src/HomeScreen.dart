@@ -11,8 +11,7 @@ import 'animations/bottomAnimation.dart';
 
 class HomeScreen extends StatefulWidget {
   final double maxSlide;
-  final User user;
-  HomeScreen({@required this.maxSlide, @required this.user});
+  HomeScreen({@required this.maxSlide});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
