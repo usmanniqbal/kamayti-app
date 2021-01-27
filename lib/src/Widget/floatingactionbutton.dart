@@ -14,6 +14,7 @@ class FancyFab extends StatefulWidget {
 
 class _FancyFabState extends State<FancyFab>
     with SingleTickerProviderStateMixin {
+  final _formKey = GlobalKey<FormState>();
   bool isOpened = false;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
@@ -85,11 +86,44 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
-  Widget image() {
+  Widget image(BuildContext context) {
     return Container(
       child: FloatingActionButton(
         heroTag: "img",
-        onPressed: null,
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context){
+              return AlertDialog(
+                title: Text('Join Committe'),
+                content: Padding(
+                  padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
+                  child: Form(
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                              decoration: InputDecoration(
+                            labelText: 'Code',
+                            hintText: "Enter code",
+                            icon: Icon(Icons.details),
+                          )),
+                        ],
+                    ),
+                  ),
+                ),
+                actions: [
+                  RaisedButton(
+                      child: Text("Submit"),
+                      color: Colors.orange,
+                      onPressed: () {
+                        // your code
+                      })
+                ],
+              );
+            }
+
+          );
+        },
         tooltip: 'Join Committe',
         child: Icon(Icons.account_tree_outlined),
       ),
@@ -100,7 +134,7 @@ class _FancyFabState extends State<FancyFab>
     return Container(
       child: FloatingActionButton(
         heroTag: "inb",
-        onPressed: null,
+        onPressed: () => showjoincommittedialog(context),
         tooltip: 'Inbox',
         child: Icon(Icons.inbox),
       ),
@@ -122,31 +156,55 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
-  // Widget showjoincommittedialog(BuildContext context){
-  //   return AlertDialog(
-  //     content: Stack(
-  //       overflow: Overflow.visible,
-  //       children: <Widget>[
-  //         Positioned(
-  //           right: -40.0,
-  //           top: -40.0,
-  //           child: InkResponse(
-  //             onTap: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: CircleAvatar(
-  //               child: Icon(Icons.close),
-  //               backgroundColor: Colors.red,
-  //             ),
-  //           ),
-  //         ),
-  //         Form(
-  //             key: _formkey,
-  //             child: null)
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget showjoincommittedialog(BuildContext context){
+    return AlertDialog(
+      content: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          Positioned(
+            right: -40.0,
+            top: -40.0,
+            child: InkResponse(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: CircleAvatar(
+                child: Icon(Icons.close),
+                backgroundColor: Colors.red,
+              ),
+            ),
+          ),
+          Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      child: Text("Submitß"),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                        }
+                      },
+                    ),
+                  )
+                ],
+              )
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +226,7 @@ class _FancyFabState extends State<FancyFab>
             _translateButton.value * 1.0,
             0.0,
           ),
-          child: image(),
+          child: image(context),
         ),
         // Transform(
         //   transform: Matrix4.translationValues(
