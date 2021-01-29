@@ -5,12 +5,16 @@ import 'package:google_sign_in/google_sign_in.dart';
 enum AppState { initial, authenticated, authenticating, unauthenticated }
 
 class AuthService with ChangeNotifier {
-  FirebaseAuth _auth;
-  AppState _appState = AppState.initial;
-  AppState get appState => _appState;
-  static User get user => FirebaseAuth.instance.currentUser;
+  static final AuthService _instance = AuthService._internal();
+  AuthService._internal();
+  factory AuthService() => _instance;
 
-  AuthService.instance() : _auth = FirebaseAuth.instance {
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static AppState _appState = AppState.initial;
+  AppState get appState => _appState;
+  User get user => FirebaseAuth.instance.currentUser;
+
+  AuthService.instance() {
     _auth.authStateChanges().listen((firebaseUser) {
       if (firebaseUser == null) {
         _appState = AppState.unauthenticated;
@@ -54,8 +58,6 @@ class AuthService with ChangeNotifier {
 
   Future signOut() async {
     await _auth.signOut();
-    _appState = AppState.unauthenticated;
-    notifyListeners();
     return Future.delayed(Duration.zero);
   }
 }

@@ -36,12 +36,12 @@ class MyDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              DrawerAppName(context),
+              _drawerAppName(context),
               Column(
                 children: <Widget>[
                   myListTile(context, height, Icons.format_list_bulleted, "List", onTap: () {}),
                   //myListTile(context, height, Icons.location_on, "Location", onTap: (){}),
-                  myListTile(context, height, Icons.payments_sharp, "Paymet Gateway", onTap: () {}),
+                  myListTile(context, height, Icons.payments_sharp, "Payment", onTap: () {}),
                   myListTile(context, height, Icons.format_list_numbered, "Commette History", onTap: () {}),
                   myListTile(context, height, Icons.help, "Help Guide", onTap: () {}),
                   myListTile(context, height, Icons.share, "Share App", onTap: () {}),
@@ -101,26 +101,37 @@ class MyDrawer extends StatelessWidget {
     );
   }
 
-  Widget DrawerAppName(BuildContext context) {
+  Widget _drawerAppName(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     //double width = MediaQuery.of(context).size.width;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "\nBallot",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: height * 0.025, color: Colors.white),
-            ),
-            Text(
-              "Committee",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: height * 0.035),
-            )
-          ],
+        CircleAvatar(
+          backgroundImage: AuthService().user.photoURL == null
+              ? AssetImage(
+                  'assets/logo.jpg',
+                )
+              : NetworkImage(
+                  AuthService().user.photoURL,
+                ),
         ),
-        Image.asset('assets/logo.jpg', height: 100, width: 100)
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                AuthService().user.displayName,
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: height * 0.035),
+              ),
+              Text(
+                AuthService().user.email,
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: height * 0.017, color: Colors.white),
+              )
+            ],
+          ),
+        ),
       ],
     );
   }

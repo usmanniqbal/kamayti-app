@@ -100,7 +100,7 @@ class _NewCommetteeState extends State<NewCommettee> {
     );
   }
 
-  Widget _entryField(String title, TextEditingController values) {
+  Widget _entryField(String title, TextEditingController controller) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -116,7 +116,7 @@ class _NewCommetteeState extends State<NewCommettee> {
           Container(
             padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
             width: 400.0,
-            child: TextFormField(controller: values, decoration: InputDecoration(border: InputBorder.none, fillColor: Color(0xfff3f3f4), filled: true)),
+            child: TextFormField(controller: controller, decoration: InputDecoration(border: InputBorder.none, fillColor: Color(0xfff3f3f4), filled: true)),
           ),
         ],
       ),

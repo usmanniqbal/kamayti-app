@@ -177,10 +177,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         SizedBox(
           height: 100,
         ),
-        Text("Ballot", style: Theme.of(context).textTheme.headline2),
+        Text("Ballot", style: Theme.of(context).textTheme.headline3),
         Text(
           "Committee",
-          style: Theme.of(context).textTheme.headline2,
+          style: Theme.of(context).textTheme.headline4,
         )
       ],
     );
@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   SizedBox(
                     height: 40,
                   ),
-                  MemberRegistartion(),
+                  // MemberRegistartion(),
                   CommetteList(),
                   PaymentGateWay(),
                   CommetteHistoy()
@@ -221,9 +221,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Positioned(
         right: width * 0.01,
         top: height * 0.045,
-        child: Image.asset(
-          "assets/logo.jpg",
-          height: height * 0.20,
+        child: SizedBox(
+          child: CircleAvatar(
+            backgroundImage: AssetImage("assets/logo.jpg"),
+          ),
         ));
   }
 }
@@ -304,22 +305,8 @@ class CommetteList extends StatelessWidget {
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CommetteListView([
-                        "Running Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee",
-                        "2nd Last Committee"
-                      ]))),
+                builder: (context) => CommetteListView("Committee List"),
+              )),
           child: WidgetAnimator(Text("Committee List", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
@@ -341,10 +328,12 @@ class PaymentGateWay extends StatelessWidget {
         height: height * 0.06,
         child: RaisedButton(
           shape: StadiumBorder(),
-          onPressed: () {
-            Navigator.pushNamed(context, '/juzzIndex');
-          },
-          child: WidgetAnimator(Text("Payment Gateway", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CommetteListView("Select Committee for Payment"),
+              )),
+          child: WidgetAnimator(Text("Configure Payment", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),
@@ -368,7 +357,7 @@ class CommetteHistoy extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, '/ManzilIndex');
           },
-          child: WidgetAnimator(Text("Committee History", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
+          child: WidgetAnimator(Text("Payment History", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),

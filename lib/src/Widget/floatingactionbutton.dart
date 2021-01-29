@@ -1,4 +1,5 @@
 import 'package:ballotcommette_app_office/src/NewCommette.dart';
+import 'package:ballotcommette_app_office/src/services/KamaytiService.dart';
 import 'package:flutter/material.dart';
 
 class FancyFab extends StatefulWidget {
@@ -12,8 +13,7 @@ class FancyFab extends StatefulWidget {
   _FancyFabState createState() => _FancyFabState();
 }
 
-class _FancyFabState extends State<FancyFab>
-    with SingleTickerProviderStateMixin {
+class _FancyFabState extends State<FancyFab> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   bool isOpened = false;
   AnimationController _animationController;
@@ -25,13 +25,11 @@ class _FancyFabState extends State<FancyFab>
 
   @override
   initState() {
-    _animationController =
-    AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500))
       ..addListener(() {
         setState(() {});
       });
-    _animateIcon =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _animateIcon = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
       begin: Colors.blue,
       end: Colors.red,
@@ -75,11 +73,7 @@ class _FancyFabState extends State<FancyFab>
   Widget add() {
     return Container(
       child: FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NewCommettee(
-                    maxSlide: MediaQuery.of(context).size.width * 0.835))),
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NewCommettee(maxSlide: MediaQuery.of(context).size.width * 0.835))),
         tooltip: 'New Committe',
         child: Icon(Icons.add),
       ),
@@ -87,42 +81,51 @@ class _FancyFabState extends State<FancyFab>
   }
 
   Widget image(BuildContext context) {
+    final codeController = TextEditingController();
+    final errorController = TextEditingController();
     return Container(
       child: FloatingActionButton(
         heroTag: "img",
         onPressed: () {
           showDialog(
-            context: context,
-            builder: (context){
-              return AlertDialog(
-                title: Text('Join Committe'),
-                content: Padding(
-                  padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
-                  child: Form(
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                              decoration: InputDecoration(
-                            labelText: 'Code',
-                            hintText: "Enter code",
-                            icon: Icon(Icons.details),
-                          )),
-                        ],
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Join Committe'),
+                  content: Padding(
+                    padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
+                    child: Wrap(
+                      children: [
+                        TextField(
+                            controller: codeController,
+                            decoration: InputDecoration(
+                              labelText: 'Code',
+                              hintText: "Enter code to join committee",
+                            )),
+                        TextField(
+                            controller: errorController,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                            )),
+                      ],
                     ),
                   ),
-                ),
-                actions: [
-                  RaisedButton(
-                      child: Text("Submit"),
+                  actions: [
+                    RaisedButton(
+                      child: Text("Join"),
                       color: Colors.orange,
-                      onPressed: () {
-                        // your code
-                      })
-                ],
-              );
-            }
-
-          );
+                      onPressed: () async {
+                        if (!await KamaytiService().join(codeController.text)) {
+                          errorController.text = "Invalid code, please try again.";
+                        } else {
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ],
+                );
+              });
         },
         tooltip: 'Join Committe',
         child: Icon(Icons.account_tree_outlined),
@@ -156,7 +159,7 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
-  Widget showjoincommittedialog(BuildContext context){
+  Widget showjoincommittedialog(BuildContext context) {
     return AlertDialog(
       content: Stack(
         overflow: Overflow.visible,
@@ -199,8 +202,7 @@ class _FancyFabState extends State<FancyFab>
                     ),
                   )
                 ],
-              )
-          )
+              ))
         ],
       ),
     );
@@ -209,7 +211,7 @@ class _FancyFabState extends State<FancyFab>
   @override
   Widget build(BuildContext context) {
     //return toggle();
-      return Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Transform(

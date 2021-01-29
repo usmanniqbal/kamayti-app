@@ -1,3 +1,4 @@
+import 'package:ballotcommette_app_office/src/CommetteList.dart';
 import 'package:ballotcommette_app_office/src/HomeScreen.dart';
 import 'package:ballotcommette_app_office/src/LoginPage.dart';
 import 'package:ballotcommette_app_office/src/SplashPage.dart';
@@ -43,7 +44,9 @@ class MyApp extends StatelessWidget {
                       case AppState.authenticating:
                         return LoginPage();
                       case AppState.authenticated:
-                        return HomeScreen(maxSlide: MediaQuery.of(context).size.width * 0.835);
+                        return HomeScreen(
+                          maxSlide: MediaQuery.of(context).size.width * 0.835,
+                        );
                       default:
                         return Container();
                     }

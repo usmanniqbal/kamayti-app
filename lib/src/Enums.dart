@@ -3,3 +3,9 @@ enum BallotType {
   Every,
   Manual,
 }
+
+enum KamaytiStatus {
+  Pending,
+  Balloted,
+  Started,
+}

@@ -9,7 +9,7 @@ abstract class BaseEntity {
 
   Map<String, dynamic> toJson() => {
         'createdAt': FieldValue.serverTimestamp(),
-        'createdBy': AuthService.user.uid,
-        'createtByName': AuthService.user.displayName,
+        'createdBy': AuthService().user.uid,
+        'createtByName': AuthService().user.displayName,
       };
 }
