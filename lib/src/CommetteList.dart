@@ -71,7 +71,9 @@ class CommetteListView extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Payment(kamaytiId: kamayti.id)));
+                        if (title != "Committee List") {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Payment(kamaytiId: kamayti.id)));
+                        }
                       },
                       isThreeLine: true,
                       trailing: title != "Committee List"
