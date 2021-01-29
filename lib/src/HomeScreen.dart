@@ -333,7 +333,7 @@ class PaymentGateWay extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => CommetteListView("Select Committee for Payment"),
               )),
-          child: WidgetAnimator(Text("Configure Payment", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
+          child: WidgetAnimator(Text("Pay your installment", style: TextStyle(color: Colors.white, fontSize: height * 0.023, fontWeight: FontWeight.w600))),
           color: Colors.blueGrey,
         ),
       ),
